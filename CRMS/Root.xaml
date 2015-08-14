@@ -1,0 +1,967 @@
+﻿<Window
+        xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="CRMS.Root"
+        Title="Root" MinHeight="300" MinWidth="300" Height="700" Width="1300">
+    <Grid >
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+        <Grid Background="#FF6644FF">
+            <TextBlock x:Name="StatusTextBox"/>
+        </Grid>
+
+        <!--Grid for categories-->
+        <UniformGrid x:Name="CategoriesGrid" Grid.Column="0" Grid.Row="1" Columns="1" Background="#dddddd" >
+            <Button Style="{StaticResource CategoryButtonStyle}" Tag="ProgressGrid" Click="CategoryButton_click" >
+                <StackPanel >
+                    <Image Source="icons/progress.png" Stretch="None" />
+                    <TextBlock Text="Progress" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource CategoryButtonStyle}"  Tag="ProjectsGrid" Click="CategoryButton_click" >
+                <StackPanel>
+                    <Image Source="icons/projects.png" Stretch="None"/>
+                    <TextBlock Text="Projects" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource CategoryButtonStyle}" Tag="TasksGrid" Click="CategoryButton_click" >
+                <StackPanel>
+                    <Image Source="icons/tasks.png" Stretch="None"/>
+                    <TextBlock Text="Tasks" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource CategoryButtonStyle}" Tag="ResourcesGrid" Click="CategoryButton_click" >
+                <StackPanel>
+                    <Image Source="icons/spade.png" Stretch="None"/>
+                    <TextBlock Text="Resources" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource CategoryButtonStyle}" Tag="EmployeesGrid" Click="CategoryButton_click" >
+                <StackPanel>
+                    <Image Source="icons/workers.png" Stretch="None"/>
+                    <TextBlock Text="Employees" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource CategoryButtonStyle}" Tag="ClientsGrid" Click="CategoryButton_click" >
+                <StackPanel>
+                    <Image Source="icons/clients.png" Stretch="None"/>
+                    <TextBlock Text="Clients" FontSize="18"/>
+                </StackPanel>
+            </Button>
+            <Button Style="{StaticResource CategoryButtonStyle}" Tag="ReportssGrid" Click="CategoryButton_click" >
+                <StackPanel>
+                    <Image Source="icons/reports.png" Stretch="None"/>
+                    <TextBlock Text="Reports" FontSize="18"/>
+                </StackPanel>
+            </Button>
+        </UniformGrid>
+
+        <!--grid containing all possible content-->
+        <Grid x:Name="ConenteGrid" Grid.Column="1" Grid.Row="1">
+
+            <!--Grid for progress-->
+            <Grid x:Name="ProgressGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <UniformGrid x:Name="ProgressOptionsGrid" Grid.Row="0" Rows="1" Visibility="Visible" Background="#dddddd">
+                    <Button Background="Transparent" Tag="ProjectsSummaryGrid"  Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="icons/summary.png" Stretch="None"/>
+                            <TextBlock Text="Projects Summary" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="TasksSummaryGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/summary.png" Stretch="None"/>
+                            <TextBlock Text="Tasks Summary" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="EmployeesSummaryGrid" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/summary.png" Stretch="None"/>
+                            <TextBlock Text="Employees Summary" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+
+
+                <!--Grid for summary of projects -->
+                <Grid Grid.Row="1" x:Name="ProjectsSummaryGrid" Visibility="Collapsed" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="360"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Running projects" Style="{StaticResource TitleTextBloclStyle}"/>
+                        <ListView x:Name="RunningProjectsListView" Grid.Row="1" HorizontalAlignment="Stretch" MouseLeftButtonUp="ProjectListviewItem_Click" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{Binding project_name}" FontSize="24" />
+                                        <TextBlock Text="{Binding location}" FontSize="18"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Tasks in project" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <ListView Grid.Row="1" x:Name="ProjectTasksListView" >
+                            <ListView.ItemTemplate >
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Rectangle Height="15"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="{Binding task_name}"/>
+                                        <TextBlock Text="{Binding start_date}"/>
+                                        <TextBlock Text="{Binding end_date}"/>
+                                        <Rectangle Height="15"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Resources used" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <ListView Grid.Row="1" x:Name="ProjectResourcesListView">
+                            <ListView.ItemTemplate >
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Rectangle Height="7.5"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" FontSize="24" Text="{Binding material_name}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Cost:" FontSize="18"/>
+                                            <Rectangle Grid.Column="1" Width="24"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding total_cost}" FontSize="18" />
+                                        </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Quantity" FontSize="18"/>
+                                            <Rectangle Grid.Column="1" Width="24"/>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                <TextBlock Text="{Binding total_quantity}" FontSize="18"/>
+                                                <Rectangle Width="6"/>
+                                                <TextBlock Text="{Binding measuring_unit}" FontSize="18"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Rectangle Height="7.5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="3" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Employees" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <ListView x:Name="ProjectJobsListView" Grid.Row="1" HorizontalAlignment="Stretch">
+                            <ListView.ItemTemplate >
+                                <DataTemplate >
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*" MinWidth="200" />
+                                            <ColumnDefinition Width="*"  />
+                                            <ColumnDefinition Width="20"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding job_name}" FontSize="24"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding employee_count}" FontSize="24" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <DataGrid Grid.Column="4"  x:Name="ProjectsDatagrid"   HorizontalAlignment="Stretch"   VerticalAlignment="Stretch"/>
+                </Grid>
+
+                <!--grid for tasks summary-->
+                <Grid x:Name="TasksSummaryGrid" Grid.Row="1" Visibility="Collapsed">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="360"/>
+                        <ColumnDefinition Width="360"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Running Tasks"/>
+                        <Grid Grid.Row="1">
+                            <ListView Grid.Row="1" x:Name="RunningTasksListView" MouseLeftButtonUp="TasksListViewItemClicked" >
+                                <ListView.ItemTemplate >
+                                    <DataTemplate>
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <Rectangle Height="15"/>
+                                            <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="{Binding task_name}"/>
+                                            <TextBlock Text="{Binding start_date}"/>
+                                            <TextBlock Text="{Binding end_date}"/>
+                                            <Rectangle Height="15"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Task details" Width="360"/>
+                        <ListView x:Name="TaskDetailsListView" Grid.Row="1" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Rectangle Height="30"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Task Name:"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding task_name}"/>
+                                        <Rectangle Height="30"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Project Name:"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding project_name}"/>
+                                        <Rectangle Height="30"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Duration:"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding duration}"/>
+                                        <Rectangle Height="30"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Days left"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding days_left}"/>
+                                        <Rectangle Height="30"/>                                        
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Start Date:"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding start_date}"/>
+                                        <Rectangle Height="30"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="End Date"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding end_date}"/>
+                                        <Rectangle Height="30"/>
+                                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Foreman:"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="{Binding foreman}"/>
+
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Resources used" Width="360"/>
+                        <ListView x:Name="TaskResourcesListView" Grid.Row="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <Rectangle Height="7.5"/>
+                                        <TextBlock Style="{StaticResource TextBloclStyle}" FontSize="24" Text="{Binding material_name}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Cost:" FontSize="18"/>
+                                            <Rectangle Grid.Column="1" Width="24"/>
+                                            <TextBlock Grid.Column="2" Text="{Binding total_cost}" FontSize="18" />
+                                        </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Quantity" FontSize="18"/>
+                                            <Rectangle Grid.Column="1" Width="24"/>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                <TextBlock Text="{Binding total_quantity}" FontSize="18"/>
+                                                <Rectangle Width="6"/>
+                                                <TextBlock Text="{Binding measuring_unit}" FontSize="18"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Rectangle Height="7.5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </Grid>
+                    <DataGrid x:Name="AllTasksDatagrid" Grid.Column="3"/>
+                </Grid>
+
+                <!--Grid for summary of employees-->
+                <Grid Grid.Row="1"  x:Name="EmployeesSummaryGrid" Visibility="Collapsed" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="240"/>
+                        <ColumnDefinition Width="240"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--grid for employee summaries-->
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Job Types:"/>
+                        <ListView x:Name="JobTypesListView" Grid.Row="1" MouseLeftButtonUp="JobTypesListView_MouseLeftButtonUp" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding job_name}" FontSize="24" />
+                                        <TextBlock Text="{Binding employee_count}" FontSize="18" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Employees :"/>
+                        <ListView x:Name="JobTypeEmployeeListView" Grid.Row="1" MouseLeftButtonUp="JobTypeEmployeeListView_MouseLeftButtonUp">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Rectangle Height="7.5"/>
+                                        <TextBlock Text="{Binding employee_name}" FontSize="24"/>
+                                        <TextBlock Text="{Binding employee_contact_number}" FontSize="12"/>
+                                        <Rectangle Height="7.5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="36"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Projects Involved :"/>
+                        <ListView x:Name="EmployeeProjectsListView" Grid.Row="1" HorizontalAlignment="Stretch"  >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch">
+                                        <TextBlock Text="{Binding project_name}" FontSize="24" />
+                                        <TextBlock Text="{Binding location}" FontSize="18"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
+            <!--Grid for projects -->
+            <Grid  x:Name="ProjectsGrid" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--options pane for project-->
+                <UniformGrid x:Name="ProjectsOptionsGrid" Grid.Row="0" Rows="1" Visibility="Visible" Background="#dddddd">
+                   <!-- <Button Background="Transparent" Tag="ProjectsSummaryGrid"  Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="icons/summary.png" Stretch="None"/>
+                            <TextBlock Text="Summary" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button> -->
+                    <Button Background="Transparent" Tag="RegisterProjectGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/new.png" Stretch="None"/>
+                            <TextBlock Text="New Project" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="UpdateProjectGrid" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Edit Project" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Click="OptionButtonHander" Tag="AssignProjectEmployeeGrid">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Assign project employee" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+                        </StackPanel>
+                    </Button>
+                </UniformGrid>
+                <!--grid for registering project details-->
+                <Grid Grid.Column="1" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                        
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="RegisterProjectGrid" Grid.Column="1" Visibility="Collapsed"  >
+                        <TextBlock Text="Project Details" FontSize="24"/>
+                        <TextBlock Text="Project Name:" Style="{StaticResource TextBloclStyle}"/>
+                        <TextBox x:Name="RegisterProjectProjectNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Text="Description:" Style="{StaticResource TextBloclStyle}"/>
+                        <TextBox x:Name="RegisterProjectDescriptionTextBox"  Height="100"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Text="Location:" Style="{StaticResource TextBloclStyle}"/>
+                        <TextBox x:Name="RegisterProjectLocationTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Text="Start Date:" Style="{StaticResource TextBloclStyle}"/>
+                        <DatePicker x:Name="RegisterProjectStartDatePicker"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Text="Deadline:" Style="{StaticResource TextBloclStyle}"/>
+                        <DatePicker x:Name="RegisterProjectEndDatePicker" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Text="Client" Style="{StaticResource TextBloclStyle}"/>
+                        <controls:AutoCompleteBox x:Name="RegisterProjectClientTextBox" Populating="AutoCompletePopulating" Tag="client"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="CreateProject" Content="Create" Click="CreateProject_Click" Style="{StaticResource CommonButtonStyle}" />
+
+                    </StackPanel>
+                </Grid>
+
+                <!--Grid for updating a current project-->
+                <Grid Grid.Column="1" Grid.Row="1">
+                    <Grid.ColumnDefinitions>                        
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>                        
+                        <ColumnDefinition Width="1.168*"/>                        
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1">
+                        <StackPanel x:Name="UpdateProjectGrid" Grid.Column="1" Visibility="Visible"  >
+                            <ComboBox x:Name="UpdateProjectProjectNameComboBox"  Tag="project" SelectionChanged="UpdateProjectProjectNameComboBox_SelectionChanged" />
+                            <TextBlock Text="Project Details" FontSize="24"/>
+                            <TextBlock Text="Project Name:" Style="{StaticResource TextBloclStyle}"/>
+                            <TextBox x:Name="UpdateProjectProjectNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                            <Rectangle Height="30"/>
+                            <TextBlock Text="Description:" Style="{StaticResource TextBloclStyle}"/>
+                            <TextBox x:Name="UpdateProjectDescriptionTextBox"  Height="50"/>
+                            <Rectangle Height="30"/>
+                            <TextBlock Text="Location:" Style="{StaticResource TextBloclStyle}"/>
+                            <TextBox x:Name="UpdateProjectLocationTextBox" Style="{StaticResource TextBoxStyle}"/>
+                            <Rectangle Height="30"/>
+                            <TextBlock Text="Start Date:" Style="{StaticResource TextBloclStyle}"/>
+                            <DatePicker x:Name="UpdateProjectStartDatePicker"/>
+                            <Rectangle Height="30"/>
+                            <TextBlock Text="Deadline:" Style="{StaticResource TextBloclStyle}"/>
+                            <DatePicker x:Name="UpdateProjectEndDatePicker" />
+                            <Rectangle Height="30"/>
+                            <TextBlock Text="Client" Style="{StaticResource TextBloclStyle}"/>
+                            <controls:AutoCompleteBox x:Name="UpdateProjectClientTextBox" Populating="AutoCompletePopulating" Tag="client"/>
+                            <Rectangle Height="30"/>
+                            <Button x:Name="UpdateProjectButton" Content="Create" Click="UpdateProjectButton_Click"  Style="{StaticResource CommonButtonStyle}" />
+
+                        </StackPanel>
+                    </Grid>
+                    
+                </Grid>
+
+                <!--Assign an employee to a project-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1">
+                        <StackPanel x:Name="AssignProjectEmployeeGrid" Visibility="Collapsed">
+                            <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Assign employee to project"/>
+                            <TextBlock Style="{StaticResource TextBloclStyle}" Text="project Name"/>
+                            <controls:AutoCompleteBox x:Name="AssignProjectEmployeeProjectNameTextBox"  Populating="AutoCompletePopulating" Tag="project"/>
+                            <Rectangle Height="30"/>
+                            <TextBlock Style="{StaticResource TextBloclStyle}" Text="Job type"/>
+                            <ComboBox x:Name="AssignProjectEmployeeJobTypeComboBox"  Tag="job_type" SelectionChanged="AssignProjectEmployeeJobTypeComboBox_SelectionChanged" />
+                            <Rectangle Height="30"/>
+                            <TextBlock Style="{StaticResource TextBloclStyle}" Text="Available employees"/>
+                            <ComboBox x:Name="AssignProjectEmployeeEmployeeNameComboBox" SelectionChanged="AssignProjectEmployeeEmployeeNameComboBox_SelectionChanged"/>
+                            <Rectangle Height="30"/>
+                            <TextBlock Style="{StaticResource TextBloclStyle}" Text="Projects employee is involved in"/>
+                            <ListView Height="100" x:Name="CommitedProjectsListView">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding project_name}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>                            
+                            <Rectangle Height="30"/>
+                            <Button x:Name="AssignProjectEmployeeRegisterButton" Click="AssignProjectEmployeeAssignButton_Click" Style="{StaticResource CommonButtonStyle}" Content="Assign"/>
+                            <Rectangle Height="30"/>
+                            
+                            
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+
+            <!--grid for tasks-->
+            <Grid x:Name="TasksGrid" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--options pane for task-->
+                <UniformGrid x:Name="TasksOptionsGrid" Grid.Row="0"  Rows="1" Visibility="Visible" Background="#dddd">
+                    
+                    <Button Background="Transparent" Tag="RegisterTaskGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/new.png" Stretch="None"/>
+                            <TextBlock Text="New Task" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent"  Tag="UpdateTasksGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Edit Task" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="AssignTaskMaterialsGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Assign task materials" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>                    
+                </UniformGrid>
+
+                <!--Grid for registering a new task-->
+                <Grid  Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="RegisterTaskGrid" Grid.Column="1" Visibility="Collapsed" >
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Task Details"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Task Name"/>
+                        <TextBox x:Name="RegisterTaskTaskNameTextBox" Style="{StaticResource TextBoxStyle}"/>                                                
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Project Name:"/>
+                        <controls:AutoCompleteBox x:Name="RegisterTaskProjectNameTextBox"  Populating="AutoCompletePopulating" Tag="project"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="StartDate"/>
+                        <DatePicker x:Name="RegisterTaskStartDatePicker" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Deadling"/>
+                        <DatePicker x:Name="RegisterTaskDeadlineDatePicker" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Foreman:"/>
+                        <controls:AutoCompleteBox x:Name="RegisterTaskForemanTextBox"  Populating="AutoCompletePopulating" Tag="employees"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Budget:"/>
+                        <TextBox x:Name="RegisterTaskBudgetTextBox"  />
+                        <Rectangle Height="30"/>
+                        <Button x:Name="RegisterTaskCreateButton" Click="RegisterTaskCreateButton_Click" Style="{StaticResource CommonButtonStyle}" Content="create"/>
+                    </StackPanel>
+
+                </Grid>
+
+                <!--Grid for updating a new task-->
+                <Grid  Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="UpdateTasksGrid" Grid.Column="1" Visibility="Collapsed" >
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Task Details"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Project Name"/>
+                        <controls:AutoCompleteBox x:Name="UpdateTaskProjectNameTextBox"  Populating="AutoCompletePopulating" Tag="project"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Task Name"/>
+                        <controls:AutoCompleteBox x:Name="UpdateTaskTaskNameTextBox"  Populating="TaskPopulator"  Tag="project" TextChanged="UpdateTaskTaskNameTextBox_TextChanged"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="StartDate"/>
+                        <DatePicker x:Name="UpdateTaskStartDatePicker" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Deadling"/>
+                        <DatePicker x:Name="UpdateTaskDeadlineDatePicker" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Foreman:"/>
+                        <controls:AutoCompleteBox x:Name="UpdateTaskForemanTextBox"  Populating="AutoCompletePopulating" Tag="employees"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Budget:"/>
+                        <TextBox x:Name="UpdateTaskBudgetTextBox"  />
+                        <Rectangle Height="30"/>
+                        <Button x:Name="UpdateTaskCreateButton" Click="UpdateTaskCreateButton_Click" Style="{StaticResource CommonButtonStyle}" Content="Update"/>
+                    </StackPanel>
+
+                </Grid>
+
+                <!--Grid for assigning resource to task-->
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="AssignTaskMaterialsGrid" Visibility="Collapsed" Grid.Column="1">
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Assign Materials to project" Width="360"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Project Name"/>
+                        <controls:AutoCompleteBox x:Name="AssignTaskMaterialsProjectNameTextBox"  Populating="AutoCompletePopulating" Tag="project"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Task Name"/>
+                        <controls:AutoCompleteBox x:Name="AssignTaskMaterialsTaskNameTextBox"  Populating="TaskPopulator"  Tag="project"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Material Name:"/>
+                        <controls:AutoCompleteBox x:Name="AssignTaskMaterialsMaterialNameTextBox" Populating="AutoCompletePopulating" Tag="materials" TextChanged="AssignTaskMaterialsMaterialNameTextBox_TextChanged"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Quantity:"/>
+                        <TextBox x:Name="AssignTaskMaterialsQuantityTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Quantity in stock:"/>
+                        <TextBlock x:Name="AssignTaskMaterialsStockQuantityTextBlock" Style="{StaticResource TextBloclStyle}" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Buying price"/>
+                        <TextBox x:Name="AssignTaskMaterialsUnitBuyingPriceTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="AssignTaskMaterialsAssignButton" Click="AssignTaskMaterialsAssignButton_Click" Style="{StaticResource CommonButtonStyle}" Content="Assign" />
+
+
+
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!--Grid for Resources-->
+            <Grid x:Name="ResourcesGrid" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--options pane for resources-->
+                <UniformGrid x:Name="ResourcesOptionsGrid" Grid.Row="0" Rows="1" Background="#dddddd">
+                  <!--  <Button Background="Transparent" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/summary.png" Stretch="None"/>
+                            <TextBlock Text="Resource Summary" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button> -->
+                    <Button Background="Transparent" Tag="RegisterMaterialsGrid" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal"  >
+                            <Image Source="icons/new.png" Stretch="None"/>
+                            <TextBlock Text="New Resource" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="UpdateMaterialsGrid" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Edit Resource" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="RegisterStockGrid" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Update Stock" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+
+                </UniformGrid>
+
+                <!--Grid for summary of resources-->
+                
+                <!--grid for registering a type of material-->
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="RegisterMaterialsGrid"  Grid.Column="1"  Visibility="Collapsed" >
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="New Materials"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="material Name:"/>
+                        <TextBox x:Name="RegisterMaterialMaterialNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Unit Price"/>
+                        <TextBox x:Name="RegisterMaterialMeasuringUnitTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="RegisterMaterialCreateButton" Click="RegisterMaterialCreateButton_Click" Style="{StaticResource CommonButtonStyle}" Content="Create"/>
+                    </StackPanel>
+                </Grid>
+
+                <!--grid for updating a type of material-->
+                <Grid Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="UpdateMaterialsGrid"  Grid.Column="1"  Visibility="Collapsed" >
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="material Name:"/>
+                        <ComboBox x:Name="UpdateMaterialMaterialNameComboBox"  Tag="materials" SelectionChanged="UpdateMaterialMaterialNameComboBox_SelectionChanged" />
+                        <Rectangle Height="30"/>                        
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="New Materials"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="material Name:"/>
+                        <TextBox x:Name="UpdateMaterialMaterialNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Unit Price"/>
+                        <TextBox x:Name="UpdateMaterialMeasuringUnitTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="UpdateMaterialCreateButton" Click="UpdateMaterialCreateButton_Click" Style="{StaticResource CommonButtonStyle}" Content="Update"/>
+                    </StackPanel>
+                </Grid>
+
+                <!--grid for registering materials in the stock-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="RegisterStockGrid" Grid.Column="1" Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Materials in stock"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Material Name"/>
+                        <controls:AutoCompleteBox x:Name="RegisterStockMaterialNameTextBox" Populating="AutoCompletePopulating" Tag="materials"/>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Quantity"/>
+                        <TextBox x:Name="RegisterStockQuantityTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="RegisterStockCreateButton" Click="RegisterStockCreateButton_Click" Style="{StaticResource CommonButtonStyle}" Content="Register"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!--grid for employees-->
+            <Grid x:Name="EmployeesGrid" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--options pane for employees-->
+                <UniformGrid x:Name="EmployeesOptionsGrid" Grid.Row="0" Rows="1" Visibility="Visible" Background="#dddddd">
+                    
+                    <Button Background="Transparent" Tag="RegisterEmployeeGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/new.png" Stretch="None"/>
+                            <TextBlock Text="New Employee" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="UpdateEmployeeGrid" Click="OptionButtonHander">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Edit EMployee details" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Background="Transparent" Tag="AssignEmplyeeJobGrid" Click="OptionButtonHander" >
+                        <StackPanel Orientation="Horizontal"  >
+                            <Image Source="icons/new.png" Stretch="None"/>
+                            <TextBlock Text="New job description" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"/>
+                        </StackPanel>
+                    </Button>                   
+                    
+                </UniformGrid>
+
+                <!--Grid for registering new employees-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="RegisterEmployeeGrid"  Grid.Column="1" Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}">Employee Details</TextBlock>
+                        <Rectangle MinHeight="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Name:"/>
+                        <TextBox x:Name="RegisterEmployeeNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle MinHeight="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Contact:"/>
+                        <TextBox x:Name="RegisterEmployeeContactNumberTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle MinHeight="60"/>
+                        <Button x:Name="RegisterEmployeeButton" Click="RegisterEmployeeButton_Click" Style="{StaticResource CommonButtonStyle}" Margin="-1,0,1,0">Register employee</Button>
+                        <Rectangle MinHeight="15"/>
+                        
+                    </StackPanel>
+                </Grid>
+
+                <!--Grid for update employees-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="UpdateEmployeeGrid"  Grid.Column="1" Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Employee Name:"/>
+                        <ComboBox x:Name="UpdateEmployeeEmployeeNameComboBox"  Tag="employees" SelectionChanged="UpdateEmployeeEmployeeNameComboBox_SelectionChanged" />
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}">Employee Details</TextBlock>
+                        <Rectangle MinHeight="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Name:"/>
+                        <TextBox x:Name="UpdateEmployeeNameTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle MinHeight="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Contact:"/>
+                        <TextBox x:Name="UpdateEmployeeContactNumberTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle MinHeight="60"/>
+                        <Button x:Name="UpdateEmployeeButton" Click="UpdateEmployeeButton_Click" Style="{StaticResource CommonButtonStyle}" Margin="-1,0,1,0">Update</Button>
+                        <Rectangle MinHeight="15"/>                       
+                    </StackPanel>
+                </Grid>
+
+
+                <!--Grid for registering new job descriptions-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel x:Name="AssignEmplyeeJobGrid"  Grid.Column="1" Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Register employee job" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Employee name"/>
+                        <controls:AutoCompleteBox x:Name="AssignEmployeejobEmployeeNameTextbox" Populating="AutoCompletePopulating" Tag="employees" />
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="job type:"/>
+                        <controls:AutoCompleteBox x:Name="AssignEmployeeJobJobNameTextBox" Populating="AutoCompletePopulating" Tag="job_type"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="AssignEmployeeJobRegisterButton" Click="AssignEmployeeJobRegisterButton_Click" Style="{StaticResource CommonButtonStyle}" >Register</Button>
+                        <Rectangle Height="30"/>
+                        <Button Style="{StaticResource CommonButtonStyle}" >Cancel</Button>
+
+                    </StackPanel>
+                </Grid>
+
+               
+
+            </Grid>
+
+            <!--grid for clients-->
+            <Grid x:Name="ClientsGrid" Visibility="Collapsed" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--options pane for clients-->
+                <UniformGrid x:Name="ClientsOptionsGrid" Grid.Row="0" Rows="1" Visibility="Visible" Background="#dddddd">
+                  <!--  <Button Background="Transparent">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/summary.png" Stretch="None"/>
+                            <TextBlock Text="Clients Summary" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button> -->
+                    <Button Background="Transparent">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/new.png" Stretch="None"/>
+                            <TextBlock Text="New Client" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                  <!--  <Button Background="Transparent">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="icons/edit_project.png" Stretch="None"/>
+                            <TextBlock Text="Edit Client" FontSize="18" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>         -->           
+
+                </UniformGrid>
+
+                <!--Grid for registering a new client-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.168*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.168*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel x:Name="RegisterClientGrid" Grid.Column="1" Visibility="Visible">
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TitleTextBloclStyle}">Client Details</TextBlock>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}">Client Name:</TextBlock>
+                        <Rectangle Height="15"/>
+                        <TextBox x:Name="RegisterClientNameTextBox" Style="{StaticResource TextBoxStyle}"></TextBox>
+                        <Rectangle Height="30"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="Contact"/>
+                        <TextBox x:Name="RegisterClientClientContactTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="15"/>
+                        <TextBlock Style="{StaticResource TextBloclStyle}" Text="email"/>
+                        <TextBox x:Name="RegisterClientEmailTextBox" Style="{StaticResource TextBoxStyle}"/>
+                        <Rectangle Height="30"/>
+                        <Button x:Name="RegisterClientButton" Click="RegisterClientButton_Click" Style="{StaticResource CommonButtonStyle}">Create client</Button>
+
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <!--Grid for Reports-->
+            <Grid x:Name="ReportssGrid" Grid.Row="1" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel  >
+                    <Rectangle Height="15"/>
+                    <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Project Reports"/>
+                    <ComboBox x:Name="ReportsProjectsCombobox" SelectionChanged="ReportsProjectsCombobox_SelectionChanged">
+                        <ComboBoxItem Content="All projects"/>
+                        <ComboBoxItem Content="Running projects"/>
+                        <ComboBoxItem Content="Job Allocation"/>
+                        <ComboBoxItem Content="Resource Expenses"/>
+                        <ComboBoxItem Content="tasks in project"/>
+                    </ComboBox>
+                    <Rectangle Height="15"/>
+                    <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Tasks Reports"/>
+                    <ComboBox x:Name="ReportsTaksCombobox" SelectionChanged="ReportsTasksCombobox_SelectionChanged">
+                        <ComboBoxItem Content="All Tasks"/>
+                        <ComboBoxItem Content="Running Tasks"/>
+                        <ComboBoxItem Content="Resource Allocation"/>
+                        <ComboBoxItem Content="Resource Expenses"/>                        
+                    </ComboBox>
+                    <Rectangle Height="15"/>
+                    <TextBlock Style="{StaticResource TitleTextBloclStyle}" Text="Employee Reports"/>
+                    <ComboBox x:Name="ReportsemployeesCombobox" SelectionChanged="ReportsEmployeesCombobox_SelectionChanged">
+                        <ComboBoxItem Content="All employees"/>
+                        <ComboBoxItem Content="Job descriptions"/>                       
+                    </ComboBox>
+                </StackPanel>
+                <DataGrid x:Name="ReportsDataGrid" Background="#dddddd" Grid.Column="1" FontSize="12"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
+ 
